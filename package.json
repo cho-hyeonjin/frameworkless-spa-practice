@@ -180,7 +180,6 @@
     "webpack-cli": "^5.1.4"
   },
   "scripts": {
-    "dev": "node server.js",
     "build": "webpack"
   },
   "keywords": [],
