@@ -6,6 +6,5 @@ function initMain() {
   return element;
 }
 document.body.appendChild(initMain());
-
 /******/ })()
 ;
