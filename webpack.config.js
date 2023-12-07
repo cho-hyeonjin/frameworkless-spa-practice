@@ -15,7 +15,7 @@ module.exports = {
     port: 9000,
   },
   module: {
-    rules: [{ test: /\.scss$/, use: ["css-loader", "sass-loader"] }],
+    rules: [{ test: /\.css$/, use: "css-loader" }],
   },
   plugins: [
     new HtmlWebpackPlugin({
