@@ -14,6 +14,9 @@ module.exports = {
   devServer: {
     port: 9000,
   },
+  module: {
+    rules: [{ test: /\.scss$/, use: ["css-loader", "sass-loader"] }],
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: "index.html",
