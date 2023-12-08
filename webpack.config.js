@@ -11,15 +11,22 @@ module.exports = {
     filename: "[name].bundle.js",
     path: path.resolve(__dirname, "dist"),
   },
-  devServer: {
-    port: 9000,
-    hot: true,
-  },
   module: {
     rules: [
       {
+        test: /\.(?:js|mjs|cjs)$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: [["@babel/preset-env", { targets: "defaults" }]],
+          },
+        },
+      },
+      {
         test: /\.css$/,
         use: [
+          { loader: "style-loader" },
           {
             loader: "css-loader",
             options: { modules: true },
@@ -27,13 +34,10 @@ module.exports = {
         ],
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(png|jpe?g|gif)$/i,
         use: [
           {
-            loader: "ts-loader",
-            options: {
-              transpileOnly: true,
-            },
+            loader: "file-loader",
           },
         ],
       },
@@ -44,4 +48,8 @@ module.exports = {
       template: "index.html",
     }),
   ],
+  devServer: {
+    port: 8000,
+    hot: true,
+  },
 };
