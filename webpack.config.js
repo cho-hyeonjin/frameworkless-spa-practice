@@ -20,12 +20,21 @@ module.exports = {
       {
         test: /\.css$/,
         use: [
-          { loader: "style-loader" },
           {
             loader: "css-loader",
             options: { modules: true },
           },
-          { loader: "sass-loader" },
+        ],
+      },
+      {
+        test: /\.tsx?$/,
+        use: [
+          {
+            loader: "ts-loader",
+            options: {
+              transpileOnly: true,
+            },
+          },
         ],
       },
     ],
