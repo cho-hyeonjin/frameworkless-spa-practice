@@ -5,7 +5,6 @@ module.exports = {
   mode: "none",
   entry: {
     main: "./src/main.js",
-    detail: "./src/detail.js",
   },
   output: {
     filename: "[name].bundle.js",
@@ -45,7 +44,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "index.html",
+      template: "./src/index.html",
     }),
   ],
   devServer: {
