@@ -9,10 +9,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ TestComponent)
 /* harmony export */ });
+const DEFAULT_COLOR = "black";
 class TestComponent extends HTMLElement {
+  get color() {
+    return this.getAttribute("color") || DEFAULT_COLOR;
+  }
+  set color(value) {
+    this.setAttribute("color", value);
+  }
   connectedCallback() {
     window.requestAnimationFrame(() => {
-      this.innerHTML = "<div>TestComponent</div>";
+      const div = document.createElement("div");
+      div.textContent = "TestComponent";
+      div.style.color = this.color;
+      this.appendChild(div);
     });
   }
 }
