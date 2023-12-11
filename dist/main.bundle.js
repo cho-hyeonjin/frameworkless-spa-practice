@@ -11,18 +11,29 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 const DEFAULT_COLOR = "black";
 class TestComponent extends HTMLElement {
+  static get observedAttributes() {
+    return ["color"];
+  }
   get color() {
     return this.getAttribute("color") || DEFAULT_COLOR;
   }
   set color(value) {
     this.setAttribute("color", value);
   }
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (!this.div) {
+      return;
+    }
+    if (name === "color") {
+      this.div.style.color = newValue;
+    }
+  }
   connectedCallback() {
     window.requestAnimationFrame(() => {
-      const div = document.createElement("div");
-      div.textContent = "TestComponent";
-      div.style.color = this.color;
-      this.appendChild(div);
+      this.div = document.createElement("div");
+      this.div.textContent = "TestComponent";
+      this.div.style.color = this.color;
+      this.appendChild(this.div);
     });
   }
 }
@@ -89,8 +100,17 @@ var __webpack_exports__ = {};
 (() => {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
+// 이 컴포넌트는 main 페이지 rendering 엔진 역할을 하는 컴포넌트로 생각하고 작성중
 
 window.customElements.define("test-component", _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__["default"]);
+const changeColorTo = color => {
+  document.querySelectorAll("test-component").forEach(testComponent => {
+    testComponent.color = color;
+  });
+};
+document.querySelector("button").addEventListener("click", () => {
+  changeColorTo("blue");
+});
 })();
 
 /******/ })()
