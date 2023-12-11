@@ -1,5 +1,13 @@
+import applyDiff from "./applyDiff";
+
 const DEFAULT_COLOR = "black";
 
+const createDomElement = (color) => {
+  const div = document.createElement("div");
+  div.textContent = "createDomElement🪄";
+  div.style.color = color;
+  return div;
+};
 export default class TestComponent extends HTMLElement {
   static get observedAttributes() {
     return ["color"];
@@ -14,21 +22,19 @@ export default class TestComponent extends HTMLElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (!this.div) {
+    if (!this.hasChildNodes()) {
       return;
     }
-
-    if (name === "color") {
-      this.div.style.color = newValue;
-    }
+    applyDiff(
+      this, // parentNode
+      this.firstElementChild, // realNode
+      createDomElement(newValue) // virtualNode
+    );
   }
 
   connectedCallback() {
     window.requestAnimationFrame(() => {
-      this.div = document.createElement("div");
-      this.div.textContent = "TestComponent";
-      this.div.style.color = this.color;
-      this.appendChild(this.div);
+      this.appendChild(createDomElement(this.color));
     });
   }
 }
