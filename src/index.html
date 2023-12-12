@@ -5,6 +5,11 @@
       href="https://static.toss.im/tds/favicon/favicon.ico"
     />
     <title>Web Component-custom element-</title>
+    <style>
+      img {
+          width: 100px;
+      }
+  </style>
   </head>
   <body>
     <!-- 이전 코드까지 한 내용 요약 -->
@@ -39,6 +44,13 @@
     <br />
 
     <!-- 아래부터 GithubAvatar 코드 -->
-    <div style="border: solid 1px; padding: 2rem"></div>
+    <div style="border: solid 1px; padding: 2rem">
+      <github-avatar user="cho-hyeonjin"/></github-avatar>
+      <github-avatar user="toss"/></github-avatar>
+      <github-avatar user="f-lab-edu"/></github-avatar>
+      <github-avatar user="francesco-strazzullo"></github-avatar>
+      <github-avatar user="dummy_user"></github-avatar>
+    </div>
+    <script type="module" src="main.js"></script>
   </body>
 </html>
