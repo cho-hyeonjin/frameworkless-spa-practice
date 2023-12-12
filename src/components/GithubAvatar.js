@@ -1,7 +1,7 @@
 const ERROR_IMAGE = "https://files-82ee7vgzc.now.sh";
 const LOADING_IMAGE = "https://files-8bga2nnt0.now.sh";
 
-const getGitHubAvatarUrl = async (user) => {
+const getGithubAvatarUrl = async (user) => {
   if (!user) {
     return;
   }
@@ -16,7 +16,7 @@ const getGitHubAvatarUrl = async (user) => {
   return data.avatar_url;
 };
 
-export default class GitHubAvatar extends HTMLElement {
+export default class GithubAvatar extends HTMLElement {
   constructor() {
     super();
     this.url = LOADING_IMAGE;
@@ -45,7 +45,7 @@ export default class GitHubAvatar extends HTMLElement {
       return;
     }
     try {
-      this.url = await getGitHubAvatarUrl(user);
+      this.url = await getGithubAvatarUrl(user);
     } catch (e) {
       this.url = ERROR_IMAGE;
     }
