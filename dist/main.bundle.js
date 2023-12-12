@@ -7,96 +7,61 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ TestComponent)
+/* harmony export */   "default": () => (/* binding */ GithubAvatar)
 /* harmony export */ });
-/* harmony import */ var _applyDiff__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(2);
+const ERROR_IMAGE = "https://files-82ee7vgzc.now.sh";
+const LOADING_IMAGE = "https://files-8bga2nnt0.now.sh";
+const getGithubAvatarUrl = async user => {
+  if (!user) {
+    return;
+  }
+  const url = `https://api.github.com/users/${user}`; // toss.tech 페이지 sources의 assets에 있는 이미지를 사용해보려 했으나, response가 json이 아닌 image 파일 자체여서 일단 예제코드 그대로 진행
 
-const DEFAULT_COLOR = "black";
-const createDomElement = color => {
-  const div = document.createElement("div");
-  div.textContent = "createDomElement🪄";
-  div.style.color = color;
-  return div;
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(response.statusText);
+  }
+  const data = await response.json();
+  return data.avatar_url;
 };
-class TestComponent extends HTMLElement {
-  static get observedAttributes() {
-    return ["color"];
+class GithubAvatar extends HTMLElement {
+  constructor() {
+    super();
+    this.url = LOADING_IMAGE;
   }
-  get color() {
-    return this.getAttribute("color") || DEFAULT_COLOR;
+  get user() {
+    return this.getAttribute("user");
   }
-  set color(value) {
-    this.setAttribute("color", value);
+  set user(value) {
+    this.setAttribute("user", value);
   }
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (!this.hasChildNodes()) {
-      return;
-    }
-    (0,_applyDiff__WEBPACK_IMPORTED_MODULE_0__["default"])(this,
-    // parentNode
-    this.firstElementChild,
-    // realNode
-    createDomElement(newValue) // virtualNode
-    );
-  }
-  connectedCallback() {
+  render() {
     window.requestAnimationFrame(() => {
-      this.appendChild(createDomElement(this.color));
+      this.innerHTML = "";
+      const img = document.createElement("img");
+      img.src = this.url;
+      this.appendChild(img);
     });
   }
-}
-
-/***/ }),
-/* 2 */
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-const isNodeChanged = (node1, node2) => {
-  const n1Attributes = node1.attributes;
-  const n2Attributes = node2.attributes;
-  if (n1Attributes.length !== n2Attributes.length) {
-    return true;
-  }
-  const differentAttribute = Array.from(n1Attributes).find(attribute => {
+  async loadNewAvatar() {
     const {
-      name
-    } = attribute;
-    const attribute1 = node1.getAttribute(name);
-    const attribute2 = node2.getAttribute(name);
-    return attribute1 !== attribute2;
-  });
-  if (differentAttribute) {
-    return true;
+      user
+    } = this;
+    if (!user) {
+      return;
+    }
+    try {
+      this.url = await getGithubAvatarUrl(user);
+    } catch (e) {
+      this.url = ERROR_IMAGE;
+    }
+    this.render();
   }
-  if (node1.children.length === 0 && node2.children.length === 0 && node1.textContent !== node2.textContent) {
-    return true;
+  connectedCallback() {
+    this.render();
+    this.loadNewAvatar();
   }
-  return false;
-};
-const applyDiff = (parentNode, realNode, virtualNode) => {
-  if (realNode && !virtualNode) {
-    realNode.remove();
-    return;
-  }
-  if (!realNode && virtualNode) {
-    parentNode.appendChild(virtualNode);
-    return;
-  }
-  if (isNodeChanged(virtualNode, realNode)) {
-    realNode.replaceWith(virtualNode);
-    return;
-  }
-  const realChildren = Array.from(realNode.children);
-  const virtualChildren = Array.from(virtualNode.children);
-  const max = Math.max(realChildren.length, virtualChildren.length);
-  for (let i = 0; i < max; i++) {
-    applyDiff(realNode, realChildren[i], virtualChildren[i]);
-  }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (applyDiff);
+}
 
 /***/ })
 /******/ 	]);
@@ -159,18 +124,9 @@ var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-// 이 컴포넌트는 main 페이지 rendering 엔진 역할을 하는 컴포넌트로 생각하고 작성중
+/* harmony import */ var _components_GithubAvatar_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
 
-window.customElements.define("test-component", _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__["default"]);
-const changeColorTo = color => {
-  document.querySelectorAll("test-component").forEach(testComponent => {
-    testComponent.color = color;
-  });
-};
-document.querySelector("button").addEventListener("click", () => {
-  changeColorTo("blue");
-});
+window.customElements.define("github-avatar", _components_GithubAvatar_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 })();
 
 /******/ })()
