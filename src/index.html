@@ -11,9 +11,42 @@
   </head>
   <body>
     <!-- 스탬프 역할을 하는 template 요소를 광범위하게 적용해보았다. -->
-    <template id="footer"></template>
-    <template id="todo-item"></template>
-    <template id="todo-app"></template>
+    <template id="footer">
+      <footer class="footer">
+        <span class="todo-count"></span>
+        <ul class="filters">
+          <!-- 아래 li들을 개발, 디자인, 채용 탭으로 발전시키면 될 듯 하다.-->
+          <li><a href="#/">모두보기</a></li>
+          <li><a href="#/active">진행예정</a></li>
+          <li><a href="#/">완료</a></li>
+        </ul>
+        <button class="clear-completed">완료 Todo 삭제</button>
+      </footer>
+    </template>
+    <template id="todo-item">
+      <li>
+        <div class="view">
+          <input class="toggle" type="checkbox">
+          <label></label>
+          <button class="destroy"></button>
+        </div>
+        <input class="edit">
+      </li>
+    </template>
+    <template id="todo-app">
+      <section class="todo-app">
+        <header class="header">
+          <h1>Todo 리스트</h1>
+          <input class="new-todo" placeholder="Todo를 입력해주세요." autofocus>
+        </header>
+        <section class="main">
+          <input id="toggle-all" class="toggle-all" type="checkbox">
+          <label for="toggle-all">모든 Todo 완료하기</label>
+          <todomvc-list></todomvc-list>
+        </section>
+        <todomvc-footer></todomvc-footer>
+      </section>
+    </template>
     <todomvc-app></todomvc-app>
     <footer class="info">
       <p>Created by <a href="https://github.com/cho-hyeonjin">@cho-hyeonjin👩🏻‍💻</p>
