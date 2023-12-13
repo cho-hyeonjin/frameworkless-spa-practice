@@ -4,9 +4,9 @@
 // DOM Event가 이 Component에 내재된 state를 변경하고,
 // syncAttributes() 메서드에서는 해당 state를 하위 속성과 동기화 한다.
 
-import { EVENTS } from "./List";
+import { EVENTS } from "./List.js";
 
-export default class App extends HTMLElement {
+export default class Application extends HTMLElement {
   constructor() {
     super();
     this.state = {

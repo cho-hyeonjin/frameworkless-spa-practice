@@ -3,10 +3,10 @@ const getTodoCount = (todos) => {
 
   const { length } = notCompleted;
   if (length === 1) {
-    return "1 Item left";
+    return "1 개 남음";
   }
 
-  return `${length} Items left`;
+  return `${length} 개 남음`;
 };
 
 export default class Footer extends HTMLElement {

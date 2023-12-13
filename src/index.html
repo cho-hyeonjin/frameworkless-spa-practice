@@ -9,43 +9,54 @@
     <link rel="stylesheet" href="./assets/style/main.css" />
     <title>Web Component/Todo MVC</title>
   </head>
-  <body>
-    <!-- 스탬프 역할을 하는 template 요소를 광범위하게 적용해보았다. -->
+
+<body>
     <template id="footer">
-      <footer class="footer">
-        <span class="todo-count"></span>
-        <ul class="filters">
-          <!-- 아래 li들을 개발, 디자인, 채용 탭으로 발전시키면 될 듯 하다.-->
-          <li><a href="#/">모두보기</a></li>
-          <li><a href="#/active">진행예정</a></li>
-          <li><a href="#/">완료</a></li>
-        </ul>
-        <button class="clear-completed">완료 Todo 삭제</button>
-      </footer>
+        <footer class="footer">
+            <span class="todo-count">
+            </span>
+            <ul class="filters">
+              <!-- //todo: 추후에 아래 li들을 개발, 디자인, 채용 탭으로 발전시켜보자 -->
+                <li>
+                    <a href="#/">모든 todos</a>
+                </li>
+                <li>
+                    <a href="#/active">미완료 todos</a>
+                </li>
+                <li>
+                    <a href="#/completed">완료 todos</a>
+                </li>
+            </ul>
+            <button class="clear-completed">
+                완료 todo 삭제
+            </button>
+        </footer>
     </template>
     <template id="todo-item">
-      <li>
-        <div class="view">
-          <input class="toggle" type="checkbox">
-          <label></label>
-          <button class="destroy"></button>
-        </div>
-        <input class="edit">
-      </li>
+        <li>
+            <div class="view">
+                <input class="toggle" type="checkbox">
+                <label></label>
+                <button class="destroy"></button>
+            </div>
+            <input class="edit">
+        </li>
     </template>
     <template id="todo-app">
-      <section class="todo-app">
-        <header class="header">
-          <h1>Todo 리스트</h1>
-          <input class="new-todo" placeholder="Todo를 입력해주세요." autofocus>
-        </header>
-        <section class="main">
-          <input id="toggle-all" class="toggle-all" type="checkbox">
-          <label for="toggle-all">모든 Todo 완료하기</label>
-          <todomvc-list></todomvc-list>
+        <section class="todoapp">
+            <header class="header">
+                <h1>todos</h1>
+                <input class="new-todo" placeholder="todo를 입력해 주세요." autofocus>
+            </header>
+            <section class="main">
+                <input id="toggle-all" class="toggle-all" type="checkbox">
+                <label for="toggle-all">
+                    모든 todo 완료하기
+                </label>
+                <todomvc-list></todomvc-list>
+            </section>
+            <todomvc-footer></todomvc-footer>
         </section>
-        <todomvc-footer></todomvc-footer>
-      </section>
     </template>
     <todomvc-app></todomvc-app>
     <footer class="info">
