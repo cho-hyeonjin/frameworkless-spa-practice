@@ -36,7 +36,12 @@ export default () => {
     return router;
   };
 
-  // 3. 초기 페이지 라우팅 세팅 함수
+  // 3. () 프로그래밍 방식으로 다른 페이지(View)로 이동하는 함수
+  router.navigate = (fragment) => {
+    window.location.hash = fragment;
+  };
+
+  // 4. 초기 페이지 라우팅 세팅 함수
   router.start = () => {
     window.addEventListener("hashchange", checkRoutes);
 
