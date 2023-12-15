@@ -1,24 +1,8 @@
-// 이 파일은 XMLHttpRequest API를 이용한 HTTP Client 파일입니다.
-// XMLHttpRequest는 CallBack을 기반으로 합니다.
-// > HTTP(Hyper Text Transfer Protocol)의 Client Side에서 사용하는 API(라이브러리, 모듈 - XMLHttpRequest, Fetch, Axios같은 것들)는
-//   대부분 Promise를 기반으로 하기 때문에 이 코드 또한 Promise를 이용하여 구현되었습니다.
-// 이 코드(XMLHttpRequest API로 구현한 HTTP Client)에서의 핵심이 되는 코드는 request 메서드입니다.
-// 아래로 내려가 살펴보겠습니다.
-
-const setHeaders = (xhr, headers) => {
-  Object.entries(headers).forEach((entry) => {
-    const [name, value] = entry;
-
-    xhr.setRequestHeader(name, value);
-  });
-};
-
-const parseResponse = (xhr) => {
-  const { status, responseText } = xhr;
-
+const parseResponse = async (response) => {
+  const { status } = response;
   let data;
   if (status !== 204) {
-    data = JSON.parse(responseText);
+    data = await response.json();
   }
 
   return {
@@ -28,31 +12,21 @@ const parseResponse = (xhr) => {
 };
 
 // ↓ request 메서드 ↓
-const request = (params) => {
-  // XMLHttpRequest를 Promise 객체로 Wrapping 했습니다.
-  return new Promise((resolve, reject) => {
-    const xhr = new XMLHttpRequest(); // XMLHttpRequest객체 생성
+const request = async (params) => {
+  const { method = "GET", url, headers = {}, body } = params;
 
-    const { method = "GET", url, headers = {}, body } = params;
+  const config = {
+    method,
+    headers: new window.Headers(headers),
+  };
 
-    xhr.open(method, url); // XMLHttpRequest 메서드. 요청 초기화 메서드.
+  if (body) {
+    config.body = JSON.stringify(body);
+  }
 
-    setHeaders(xhr, headers); // 위에서 정의한 요청 헤더 설정 메서드
+  const response = await window.fetch(url, config);
 
-    xhr.send(JSON.stringify(body)); // XMLHttpRequest 메서드. 요청 전송 메서드. (stringify메서드로 Javascript → JSON 변환)
-
-    xhr.onerror = () => {
-      // XMLHttpRequest 이벤트. 전송된 요청이 오류를 일으켰을 때 발생.
-      reject(new Error("HTTP Error")); // Promise의 status가 rejected인 경우 onerror가 rejected 실행
-    };
-
-    xhr.ontimeout = () => {
-      // XMLHttpRequest 이벤트. 요청에 대한 응답에 소요된 시간이 사전에 지정한 값을 초과해서 취소될 때 발생.
-      reject(new Error("Timeout Error")); // Promise의
-    };
-
-    xhr.onload = () => resolve(parseResponse(xhr)); // XMLHttpRequest 이벤트. XMLHttpRequest 트랜잭션이 성공적으로 끝나면 발생.
-  });
+  return parseResponse(response);
 };
 
 // Representational State Transfer(웹 서비스 아키텍처 스타일)
