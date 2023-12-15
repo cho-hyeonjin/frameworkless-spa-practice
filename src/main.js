@@ -5,6 +5,9 @@
 // todos.js를 todos라는 이름으로 import
 import todos from "./todos.js";
 
+// 기존 onAddClick메서드에서 문자열을 바로 사용하던 방식에서 아래와 같이 상수화 시켜서 사용
+const NEW_TODO_TEXT = "A simple todo Element";
+
 const printResult = (action, result) => {
   const time = new Date().toTimeString();
   const node = document.createElement("p");
@@ -27,7 +30,7 @@ const onListClick = async () => {
 // HTTP Client(http.js)는 Model객체(todos.js)에서 import해서 create라는 이름을 가진 메서드로 Wrapping(캡슐화)하여 export.
 // 컨트롤러(main.js)에서는 Model(todos)을 import하여 Model에서 Wrapping한 POST 요청 메서드 'create'를 사용했다.
 const onAddClick = async () => {
-  const result = await todos.create("A simple todo Element");
+  const result = await todos.create(NEW_TODO_TEXT); // 기존 문자열을 상수화하여 사용
   printResult("add todo", result);
 };
 

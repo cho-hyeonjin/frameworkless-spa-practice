@@ -1,8 +1,17 @@
+// Fetch는 이미 Promise 기반으로 구현된 API이기 때문에,
+// Callback 기반인 XMLHttpRequest를 사용한 코드에서처럼 Promise로 Wrapping 해주는 별도의 작업이 필요하지 않습니다.
+// async 키워드로 비동기 함수(Promise 반환)를 정의해주고,
+// 적절한 곳에서 await 키워드로 async 함수를 호출해주면,
+// async 함수의 비동기 작업이 완료되어 반환된 Promise애 이어서 작업하게 됩니다.
+
+// response 데이터를 parsing하여 리턴하는 함수를 async 함수로 정의.
 const parseResponse = async (response) => {
+  // async 함수
   const { status } = response;
   let data;
+
   if (status !== 204) {
-    data = await response.json();
+    data = await response.json(); // response.json() 작업이 완료될 때까지 기다림
   }
 
   return {
