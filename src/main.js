@@ -8,11 +8,11 @@ const pages = createPages(container);
 const router = createRouter();
 
 router
-  .addRoute("#/", pages.tech)
-  .addRoute("#/design", pages.design)
-  .addRoute("#/career", pages.career)
-  .addRoute("#/list/:id", pages.detail)
-  .addRoute("#/list/:id/:anotherId", pages.anotherDetail)
+  .addRoute("/", pages.tech)
+  .addRoute("/design", pages.design)
+  .addRoute("/career", pages.career)
+  .addRoute("/list/:id", pages.detail)
+  .addRoute("/list/:id/:anotherId", pages.anotherDetail)
   .setNotFound(pages.notFound)
   .start();
 
