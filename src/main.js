@@ -1,72 +1,52 @@
-// TodoMVC Controller - preview
+// Controller with Separated Model
+// 상태를 컨트롤러에서 유지하는 것은 상태 관리의 좋은 방법이 아닙니다.
+// 애플리케이션의 디자인(구조)을 향상시키는 첫 번째 단계는?
+// → 상태 코드를 별도의 파일로 옮겨서 분리하는 것!
+// 아래 코드는 애플리케이션의 상태를 외부 모델(분리된 별도의 상태 파일)에서 관리하는 컨트롤러의 업데이트된 버전입니다.
 
-import todosView from "./view/todos.js";
-import counterView from "./view/counter.js";
-import filtersView from "./view/filters.js";
-import appView from "./view/app.js";
-import applyDiff from "./applyDiff.js";
+import modelFactory from "./model/model.js";
 
-import registry from "./registry.js";
-
-registry.add("app", appView);
-registry.add("todos", todosView);
-registry.add("counter", counterView);
-registry.add("filters", filtersView);
-
-const state = {
-  todos: [],
-  currentFilter: "All",
-};
+const model = modelFactory();
 
 const events = {
   addItem: (text) => {
-    state.todos.push({
-      text,
-      completed: false,
-    });
-    render();
+    model.addItem(text);
+    render(model.getState());
   },
-
   updateItem: (index, text) => {
-    state.todos[index].text = text;
-    render();
+    model.updateItem(index, text);
+    render(model.getState());
   },
-
   deleteItem: (index) => {
-    state.todos.splice(index, 1);
-    render();
+    model.deleteItem(index);
+    render(model.getState());
   },
-
   toggleItemCompleted: (index) => {
-    const { completed } = state.todos[index];
-    state.todos[index].completed = !completed;
-    render();
+    model.toggleItemCompleted(index);
+    render(model.getState());
   },
-
   completeAll: () => {
-    state.todos.forEach((t) => {
-      t.completed = true;
-    });
-    render();
+    model.completeAll();
+    render(model.getState());
   },
-
   clearCompleted: () => {
-    state.todos = state.todos.filter((t) => !t.completed);
-    render();
+    model.clearCompleted();
+    render(model.getState());
   },
-
   changeFilter: (filter) => {
-    state.currentFilter = filter;
-    render();
+    model.changeFilter(filter);
+    render(model.getState());
   },
 };
 
-const render = () => {
+const render = (state) => {
   window.requestAnimationFrame(() => {
     const main = document.querySelector("#root");
+
     const newMain = registry.renderRoot(main, state, events);
+
     applyDiff(document.body, main, newMain);
   });
 };
 
-render();
+render(model.getState()); // rendering에 사용된 실제 데이터는 model 객체의 getState 메서드에서 반환됩니다.
