@@ -7,6 +7,7 @@
 const ROUTE_PARAMETER_REGEXP = /:(\w+)/g;
 const URL_FRAGMENT_REGEXP = "([^\\/]+)";
 const TICKTIME = 250;
+const NAV_A_SELECTOR = "a[data-navigation]";
 
 const extractUrlParams = (route, pathname) => {
   const params = {};
@@ -66,7 +67,7 @@ export default () => {
       .replace(/\//g, "\\/");
 
     routes.push({
-      testRegExp: new RegExp(`^${parsedFragment}$`),
+      testRegExp: new RegExp(`^${parsedPath}$`),
       callback,
       params,
     });
@@ -88,6 +89,15 @@ export default () => {
     checkRoutes();
     window.setInterval(checkRoutes, TICKTIME); // 이전 버전(Fragment Identifier 이용하여 구현한 라우터)에는 URL이 변경되면 그것을 감지하고 알려주는 이벤트 리스너 메서드(이전 버전의 checkRoutes 메서드)가 있었는데, 지금 코드에는 없다.
     //                                            그것과 비슷한 역할을 하는 코드를 만들기 위해 window의 setIntrval 메서드에 checkRoutes 콜백을 TICKTIME 마다 실행되게 호출하였다.
+    document.body.addEventListener("click", (e) => {
+      const { target } = e;
+      if (target.matches(NAV_A_SELECTOR)) {
+        e.preventDefault();
+        router.navigate(target.href);
+      }
+    });
+
+    return router;
   };
 
   return router;

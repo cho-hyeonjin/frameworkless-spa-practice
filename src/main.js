@@ -16,13 +16,4 @@ router
   .setNotFound(pages.notFound)
   .start();
 
-// data attribute 이용해서 routing controll 하는 DOM 조작 로직
-const NAV_BTN_SELECTOR = "button[data-navigate]";
-
-document.body.addEventListener("click", (e) => {
-  const { target } = e;
-  if (target.matches(NAV_BTN_SELECTOR)) {
-    const { navigate } = target.dataset;
-    router.navigate(navigate);
-  }
-});
+// 기존 Controlling Method → router.js로 이동, 수정
