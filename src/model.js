@@ -14,8 +14,8 @@ const INITIAL_STATE = {
   currentFilter: "All",
 };
 
-export default (initalState = INITIAL_STATE) => {
-  const state = cloneDeep(initalState); // 1. initialState에는 초기 상태값(객체)이 들어올 것입니다.
+export default (initialState = INITIAL_STATE) => {
+  const state = cloneDeep(initialState); // 1. initialState에는 초기 상태값(객체)이 들어올 것입니다.
   //                                          그 값을 깊은 복사하여 state에 담습니다.
 
   const getState = () => {

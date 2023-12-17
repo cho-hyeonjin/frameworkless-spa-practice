@@ -4,6 +4,7 @@
 // → 상태 코드를 별도의 파일로 옮겨서 분리하는 것!
 // 아래 코드는 애플리케이션의 상태를 외부 모델(분리된 별도의 상태 파일)에서 관리하는 컨트롤러의 업데이트된 버전입니다.
 
+// madel 객체(함수, model.js)를 modelFactory라는 이름으로 import
 import modelFactory from "./model/model.js";
 
 const model = modelFactory();
