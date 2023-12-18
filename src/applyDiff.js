@@ -1,3 +1,7 @@
+// React의 Virtual DOM과 유사한 개념을 포함하고 있는 파일로,
+// Virtual DOM을 Real DOM과 비교하여 차이나는 부분을 Real DOM에 적용하는 역할을 하는 컴포넌트.
+
+// 주어진 두 노드의 값이 같은지 다른지 확인하는 함수
 const differentValue = (node1, node2) => {
   if (node1.value !== node2.value) {
     return true;
@@ -10,6 +14,7 @@ const differentValue = (node1, node2) => {
   return false;
 };
 
+// 주어진 두 노드의 변경 여부를 확인하는 함수
 const isNodeChanged = (node1, node2) => {
   const n1Attributes = node1.attributes;
   const n2Attributes = node2.attributes;
@@ -44,6 +49,7 @@ const isNodeChanged = (node1, node2) => {
   return false;
 };
 
+// 실제 DOM과 가상 DOM 간의 차이를 비교하고 변경 사항을 적용하는 함수
 const applyDiff = (parentNode, realNode, virtualNode) => {
   if (realNode && !virtualNode) {
     realNode.remove();
