@@ -15,5 +15,3 @@ router
   .addRoute("/list/:id/:anotherId", pages.anotherDetail)
   .setNotFound(pages.notFound)
   .start();
-
-// 기존 Controlling Method → router.js로 이동, 수정
