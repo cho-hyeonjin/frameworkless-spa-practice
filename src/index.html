@@ -11,13 +11,16 @@
   </head>
   <body>
     <header>
-      <button data-navigate="/design">디자인</button>
-      <button data-navigate="/">개발</button>
-      <button data-navigate="/career">채용 바로가기</button>
-      <button data-navigate="/list/1">상세 페이지 1</button>
-      <button data-navigate="/list/2">상세 페이지 2</button>
-      <button data-navigate="/list/1/2">상세 페이지 1/2</button>
-      <button data-navigate="/dummy">?</button>
+      <!-- 기존 코드는 http://localhost:8080/list/index.html 로 이동하기 때문에 -->
+      <!-- 원하는 방향인 http://localhost:8080/list 로 이동하게 하려면 default 동작을 변경해줘야 합니다. -->
+      <!-- 1. 가장 먼저, 내부 탐색에 사용되는 모든 link들을 표시해야합니다. -->
+      <a data-navigation href="/design">디자인</a>
+      <a data-navigation href="/">개발</a>
+      <a data-navigation href="/career">채용 바로가기</a>
+      <a data-navigation href="/list/1">상세 페이지 1</a>
+      <a data-navigation href="/list/2">상세 페이지 2</a>
+      <a data-navigation href="/list/1/2">상세 페이지 1/2</a>
+      <a data-navigation href="/dummy">?</a>
     </header>
     <main></main>
     <script type="module" src="main.js"></script>

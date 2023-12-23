@@ -1,21 +1,24 @@
+// 라우팅을 위해 History API를 사용하면,
+// Fragment identifier를 이용해서 경로를 지정해줄 필요가 없습니다.
+// History API는 실제 URL을 사용합니다.
+// (Fragment identifier = '#/page1')
+// (History API = 'http://localhost:8080/page1')
+
 const ROUTE_PARAMETER_REGEXP = /:(\w+)/g;
 const URL_FRAGMENT_REGEXP = "([^\\/]+)";
+const TICKTIME = 250;
+const NAV_A_SELECTOR = "a[data-navigation]";
 
-// :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-// 5-1. extractUrlParams 메서드
-const extractUrlParams = (route, windowHash) => {
+const extractUrlParams = (route, pathname) => {
   const params = {};
 
   if (route.params.length === 0) {
     return params;
   }
 
-  const matches = windowHash.match(route.testRegExp);
+  const matches = pathname.match(route.testRegExp);
 
   matches.shift();
-  // String.matches 메서드는 첫번째 요소가 일치하는 배열을 반환하지만 다른 요소는 캡처 그룹의 결과다.
-  // shift를 사용해 해당 배열에서 첫 번째 요소를 삭제한다. ---> 이해 안 가는 부분..
 
   matches.forEach((paramValue, index) => {
     const paramName = route.params[index];
@@ -23,21 +26,25 @@ const extractUrlParams = (route, windowHash) => {
   });
 
   return params;
-}; // 5-2. extractUrlParams 메서드는 이 객체의 현재 프래그먼트에서 실제 매개변수를 추출한다. {id: 1, anotherId: 2}
+};
 
 export default () => {
   const routes = [];
   let notFound = () => {};
 
+  let lastPathname;
+
   const router = {};
 
-  // 4-1. checkRoutes 메서드
   const checkRoutes = () => {
-    const { hash } = window.location;
-
+    const { pathname } = window.location;
+    if (lastPathname === pathname) {
+      return;
+    }
+    lastPathname = pathname;
     const currentRoute = routes.find((route) => {
       const { testRegExp } = route;
-      return testRegExp.test(hash); // 여기 주목
+      return testRegExp.test(pathname);
     });
 
     if (!currentRoute) {
@@ -45,30 +52,23 @@ export default () => {
       return;
     }
 
-    const urlParams = extractUrlParams(currentRoute, window.location.hash); // 4-2. 사용자가 #/list/1/2 같은 fragment를 탐색할 때 checkRoutes 메서드는 정규식을 사용해 올바른 경로를 선택한다.
-
-    currentRoute.component(urlParams); // 4-3. 객체가 DOM을 업데이트하는 component 함수로 전달된다.
+    const urlParams = extractUrlParams(currentRoute, pathname);
+    currentRoute.callback(urlParams);
   };
 
-  // :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
-
-  // 1. document의 #/list/:id/:anotherId Fragment가 addRoute 메서드로 전달된다.
-  router.addRoute = (fragment, component) => {
-    // 2. addRoute 메서드는 2개의 매개변수 name-함수 시그니처-(fragment, component)을 추출하고
+  router.addRoute = (path, callback) => {
     const params = [];
 
-    const parsedFragment = fragment
+    const parsedPath = path
       .replace(ROUTE_PARAMETER_REGEXP, (match, paramName) => {
         params.push(paramName);
         return URL_FRAGMENT_REGEXP;
       })
-      .replace(/\//g, "\\/"); // 3. 정규식 ^#\/list\/([^\\/]+)\/ ([^\\/]+)$ 에서 fragment를 변환한다.
-
-    console.log(`^${parsedFragment}$`);
+      .replace(/\//g, "\\/");
 
     routes.push({
-      testRegExp: new RegExp(`^${parsedFragment}$`),
-      component,
+      testRegExp: new RegExp(`^${parsedPath}$`),
+      callback,
       params,
     });
 
@@ -80,18 +80,24 @@ export default () => {
     return router;
   };
 
-  router.navigate = (fragment) => {
-    window.location.hash = fragment;
+  router.navigate = (path) => {
+    window.history.pushState(null, null, path); // pushState는 History API를 이용한 라우팅 구현에서 사용된 유일한 메서드로,
+    //                                             pushState(state, title, URL)입니다. history stack에 data를 push하고, URL로 이동합니다.
   };
 
   router.start = () => {
-    window.addEventListener("hashchange", checkRoutes);
-
-    if (!window.location.hash) {
-      window.location.hash = "#/";
-    }
-
     checkRoutes();
+    window.setInterval(checkRoutes, TICKTIME); // 이전 버전(Fragment Identifier 이용하여 구현한 라우터)에는 URL이 변경되면 그것을 감지하고 알려주는 이벤트 리스너 메서드(이전 버전의 checkRoutes 메서드)가 있었는데, 지금 코드에는 없다.
+    //                                            그것과 비슷한 역할을 하는 코드를 만들기 위해 window의 setIntrval 메서드에 checkRoutes 콜백을 TICKTIME 마다 실행되게 호출하였다.
+    document.body.addEventListener("click", (e) => {
+      const { target } = e;
+      if (target.matches(NAV_A_SELECTOR)) {
+        e.preventDefault();
+        router.navigate(target.href);
+      }
+    });
+
+    return router;
   };
 
   return router;
