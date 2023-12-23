@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
@@ -155,23 +156,14 @@ const applyDiff = (parentNode, realNode, virtualNode) => {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
-var __webpack_exports__ = {};
-// This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
-(() => {
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(1);
-// 이 컴포넌트는 main 페이지 rendering 엔진 역할을 하는 컴포넌트로 생각하고 작성중
 
-window.customElements.define("test-component", _components_TestComponent__WEBPACK_IMPORTED_MODULE_0__["default"]);
-const changeColorTo = color => {
-  document.querySelectorAll("test-component").forEach(testComponent => {
-    testComponent.color = color;
-  });
-};
-document.querySelector("button").addEventListener("click", () => {
-  changeColorTo("blue");
-});
-})();
+var __webpack_exports__ = {};
+function initMain() {
+  const element = document.createElement("h1");
+  element.innerHTML = "메인 컴포넌트";
+  return element;
+}
+document.body.appendChild(initMain());
 
 /******/ })()
 ;
