@@ -4,21 +4,65 @@
       rel="shortcut icon"
       href="https://static.toss.im/tds/favicon/favicon.ico"
     />
-    <title>Web Component-custom element-</title>
-    <style>
-      img {
-          width: 100px;
-      }
-  </style>
+    <!-- 예제 코드에서는 hrfe="cdn"으로 link했지만, 해당 cdn으로 제공하는 css 코드를 static파일로 만들어서 link하는 방식을 적용해보려 한다. (webpack 번들링 적용 위함) -->
+    <link rel="stylesheet" href="./assets/style/base.css" /> 
+    <link rel="stylesheet" href="./assets/style/main.css" />
+    <title>Web Component/Todo MVC</title>
   </head>
-  <body>
-    <div style="border: solid 1px; padding: 2rem">
-      <github-avatar user="cho-hyeonjin"/></github-avatar>
-      <github-avatar user="toss"/></github-avatar>
-      <github-avatar user="f-lab-edu"/></github-avatar>
-      <github-avatar user="francesco-strazzullo"></github-avatar>
-      <github-avatar user="dummy_user"></github-avatar>
-    </div>
+
+<body>
+    <template id="footer">
+        <footer class="footer">
+            <span class="todo-count">
+            </span>
+            <ul class="filters">
+              <!-- //todo: 추후에 아래 li들을 개발, 디자인, 채용 탭으로 발전시켜보자 -->
+                <li>
+                    <a href="#/">모든 todos</a>
+                </li>
+                <li>
+                    <a href="#/active">미완료 todos</a>
+                </li>
+                <li>
+                    <a href="#/completed">완료 todos</a>
+                </li>
+            </ul>
+            <button class="clear-completed">
+                완료 todo 삭제
+            </button>
+        </footer>
+    </template>
+    <template id="todo-item">
+        <li>
+            <div class="view">
+                <input class="toggle" type="checkbox">
+                <label></label>
+                <button class="destroy"></button>
+            </div>
+            <input class="edit">
+        </li>
+    </template>
+    <template id="todo-app">
+        <section class="todoapp">
+            <header class="header">
+                <h1>todos</h1>
+                <input class="new-todo" placeholder="todo를 입력해 주세요." autofocus>
+            </header>
+            <section class="main">
+                <input id="toggle-all" class="toggle-all" type="checkbox">
+                <label for="toggle-all">
+                    모든 todo 완료하기
+                </label>
+                <todomvc-list></todomvc-list>
+            </section>
+            <todomvc-footer></todomvc-footer>
+        </section>
+    </template>
+    <todomvc-app></todomvc-app>
+    <footer class="info">
+      <p>Created by <a href="https://github.com/cho-hyeonjin">@cho-hyeonjin👩🏻‍💻</p>
+      <p>Thanks to <a href="https://www.francescostrazzullo.info/">Francesco Strazzullo👨🏻‍💻</a> and <a href="http://todomvc.com">TodoMVC</a> ❣️</p>
+    </footer>
     <script type="module" src="main.js"></script>
   </body>
 </html>
