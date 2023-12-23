@@ -1,4 +1,5 @@
 /******/ (() => { // webpackBootstrap
+
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ([
 /* 0 */,
@@ -7,6 +8,7 @@
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+
 /* harmony export */   "default": () => (/* binding */ GithubAvatar)
 /* harmony export */ });
 const ERROR_IMAGE = "https://files-82ee7vgzc.now.sh";
@@ -120,6 +122,7 @@ class GithubAvatar extends HTMLElement {
 /******/ 	})();
 /******/ 	
 /************************************************************************/
+
 var __webpack_exports__ = {};
 // This entry need to be wrapped in an IIFE because it need to be isolated against other modules in the chunk.
 (() => {
@@ -129,5 +132,5 @@ __webpack_require__.r(__webpack_exports__);
 window.customElements.define("github-avatar", _components_GithubAvatar_js__WEBPACK_IMPORTED_MODULE_0__["default"]);
 })();
 
+
 /******/ })()
-;
