@@ -3,18 +3,23 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Routing 적용 연습</title>
     <link
       rel="shortcut icon"
       href="https://static.toss.im/tds/favicon/favicon.ico"
     />
-    <title>HTTP Client - XMLHttpRequest Ver.</title>
   </head>
   <body>
-    <button data-list>Get Todos list</button>
-    <button data-add>PUT Todo</button>
-    <button data-update>Update Todo</button>
-    <button data-delete>Delete Todo</button>
-    <div></div>
+    <header>
+      <button data-navigate="/design">디자인</button>
+      <button data-navigate="/">개발</button>
+      <button data-navigate="/career">채용 바로가기</button>
+      <button data-navigate="/list/1">상세 페이지 1</button>
+      <button data-navigate="/list/2">상세 페이지 2</button>
+      <button data-navigate="/list/1/2">상세 페이지 1/2</button>
+      <button data-navigate="/dummy">?</button>
+    </header>
+    <main></main>
     <script type="module" src="main.js"></script>
   </body>
 </html>
