@@ -1,22 +1,13 @@
-// 이 컴포넌트는 main 페이지 rendering 엔진 역할을 하는 컴포넌트로 생각하고 작성중
-import TestComponent from "./components/TestComponent";
+import GithubAvatar, { EVENTS } from "./components/GithubAvatar.js";
 
-window.customElements.define("test-component", TestComponent);
+window.customElements.define("github-avatar", GithubAvatar);
 
-const changeColorTo = (color) => {
-  document.querySelectorAll("test-component").forEach((testComponent) => {
-    testComponent.color = color;
+document.querySelectorAll("github-avatar").forEach((avatar) => {
+  avatar.addEventListener(EVENTS.AVATAR_LOAD_COMPLETE, (e) => {
+    console.log("Avatar Loaded", e.detail.avatar);
   });
-};
 
-document.querySelector("button").addEventListener("click", () => {
-  changeColorTo("blue");
+  avatar.addEventListener(EVENTS.AVATAR_LOAD_ERROR, (e) => {
+    console.log("Avatar Loading error", e.detail.error);
+  });
 });
-
-function initMain() {
-  const element = document.createElement("h1");
-  element.innerHTML = "메인 컴포넌트";
-  return element;
-}
-document.body.appendChild(initMain());
-
